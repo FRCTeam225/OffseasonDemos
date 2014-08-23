@@ -126,6 +126,17 @@ public class MyRobot extends IterativeRobot {
        right2.set(right);
        right3.set(right);
         
+       
+       if ( leftJS.getRawButton(3) )
+       {
+           roller.set(1);
+       }
+       else
+       {
+           roller.set(0);
+       }
+       
+       
         System.out.println(left+" - "+right);
     }
     
