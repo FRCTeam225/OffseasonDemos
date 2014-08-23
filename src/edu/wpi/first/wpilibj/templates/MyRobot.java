@@ -117,6 +117,7 @@ public class MyRobot extends IterativeRobot {
     public void teleopPeriodic() {
         double left = leftJS.getY()*-1;
         double right = rightJS.getY();
+       
         
        left1.set(left);
        left2.set(left);
@@ -125,8 +126,14 @@ public class MyRobot extends IterativeRobot {
        right1.set(right);
        right2.set(right);
        right3.set(right);
+       
+       if ( leftJS.getRawButton(3) )
+       {
+           roller.set(1);
+       }
+       
+       System.out.println(left+" - "+right);
         
-        System.out.println(left+" - "+right);
     }
     
     /**
