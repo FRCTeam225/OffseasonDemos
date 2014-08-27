@@ -9,6 +9,8 @@ package edu.wpi.first.wpilibj.templates;
 
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Talon;
@@ -38,7 +40,11 @@ public class MyRobot extends IterativeRobot {
     
     DigitalInput ballSensor = new DigitalInput(7);
     
+    Gyro gyro = new Gyro(1);
+    Encoder leftEncoder = new Encoder(2,3);
+    
     Timer timer = new Timer();
+
     
         
     int state = 0;
@@ -48,7 +54,18 @@ public class MyRobot extends IterativeRobot {
      * used for any initialization code.
      */
     public void robotInit() {
+        leftEncoder.start();
+    }
+    
+    public void setMotors(double left, double right)
+    {
+        left1.set(-left);
+        left2.set(-left);
+        left3.set(-left);
 
+        right1.set(right);
+        right2.set(right);
+        right3.set(right);
     }
 
     /**
@@ -58,48 +75,43 @@ public class MyRobot extends IterativeRobot {
     public void autonomousInit()
     {
         state = 1;
+        leftEncoder.reset();
+        timer.reset();
+        timer.start();
     }
 
     
-    public void autonomousPeriodic() {
-        
-        switch ( state )
+    public void autonomousPeriodic() 
+    {
+        System.out.println(leftEncoder.get()+" "+gyro.getAngle());
+        switch (state)
         {
             case 1:
-                roller.set(1.0);
-                boolean hasBall = ballSensor.get();
-                if ( hasBall == true )
+                setMotors(0.3,0.3);
+                if ( timer.get() > 0.5 )
                 {
-                    state = state + 1;
-                    timer.reset();
-                    timer.start();
+                    state++;
                 }
                 break;
                 
             case 2:
-                roller.set(0);
-                
-                left1.set(1);
-                left2.set(1);
-                left3.set(1);
-
-                right1.set(1);
-                right2.set(1);
-                right3.set(1);
-                if ( timer.get() > 1 )
+                setMotors(-0.3,0.3);
+                if ( timer.get() > 1.3 )
                 {
-                    state = state + 1;
+                    state++;
                 }
                 break;
             case 3:
-                left1.set(0);
-                left2.set(0);
-                left3.set(0);
-
-                right1.set(0);
-                right2.set(0);
-                right3.set(0);
+                setMotors(0.3,0.3);
+                if ( timer.get() > 1.8 )
+                {
+                    state++;
+                }
                 break;
+            case 4:
+                setMotors(0,0);
+                break;
+              
         }
     }
 
@@ -126,7 +138,17 @@ public class MyRobot extends IterativeRobot {
        right2.set(right);
        right3.set(right);
         
-        System.out.println(left+" - "+right);
+       if ( leftJS.getRawButton(3) )
+       {
+           roller.set(1);
+       }
+       else
+       {
+           roller.set(0);
+       }
+       
+       
+       System.out.println(left+" - "+right);
     }
     
     /**
