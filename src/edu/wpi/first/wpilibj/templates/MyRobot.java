@@ -83,36 +83,36 @@ public class MyRobot extends IterativeRobot {
     
     public void autonomousPeriodic() 
     {
-        System.out.println(leftEncoder.get()+" "+gyro.getAngle());
-        switch (state)
+        // Drivetrain
+        double current = leftEncoder.getDistance();
+        double target = 3000;
+        
+        double error = current-target;
+        System.out.println(error);
+        
+        if ( Math.abs(error) < 10 )
         {
-            case 1:
-                setMotors(0.3,0.3);
-                if ( timer.get() > 0.5 )
-                {
-                    state++;
-                }
-                break;
-                
-            case 2:
-                setMotors(-0.3,0.3);
-                if ( timer.get() > 1.3 )
-                {
-                    state++;
-                }
-                break;
-            case 3:
-                setMotors(0.3,0.3);
-                if ( timer.get() > 1.8 )
-                {
-                    state++;
-                }
-                break;
-            case 4:
-                setMotors(0,0);
-                break;
-              
+            System.out.println("AT TARGET!");
         }
+        
+        error *= -0.0003;
+        setMotors(error, error);
+        
+        
+        // Gyro
+        /*double current = gyro.getAngle();
+        double target = 90;
+        
+        double error = current-target;
+        System.out.println(error);
+        
+        if ( Math.abs(error) < 10 )
+        {
+            System.out.println("AT TARGET!");
+        }
+        
+        error *= -0.01;
+        setMotors(error, -error);*/
     }
 
     
