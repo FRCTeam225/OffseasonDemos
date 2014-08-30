@@ -68,12 +68,22 @@ public class MyRobot extends IterativeRobot {
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
+        
+        boolean buttonDown = false;
+        if(js.getRawButton(3) && buttonDown == false)
+        {
+            buttonDown = true;
+        }
+        else if(js.getRawButton(3)==false)
+        {
+            buttonDown = false; 
+        }
     
-        if ( js.getRawButton(3) && buttonPressed == true)
+        if ( js.getRawButton(3) && buttonDown == true)
         {
             setCatch(true);
         }
-        else if( js.getRawButton(3) && buttonPressed == false)
+        else if( js.getRawButton(3) && buttonDown == false)
         {
             setCatch(false);
         }
@@ -82,11 +92,11 @@ public class MyRobot extends IterativeRobot {
         {
             setCatch(false);
         }
+        buttonDown = false;
     }
 
     public void setCatch(boolean isCaught)
     {
-        buttonPressed = isCaught;
         arm.set(isCaught);
         catcher.set(isCaught);
     }
