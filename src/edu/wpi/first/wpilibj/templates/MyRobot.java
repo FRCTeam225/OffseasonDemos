@@ -69,11 +69,11 @@ public class MyRobot extends IterativeRobot {
     public void teleopPeriodic() {
     
         if ( js.getRawButton(3) )
-        {
+        {   
             arm.set(true);
             catcher.set(true);
         }
-        else 
+        else if (ballSensor.get() == true)
         {
             arm.set(false);
             catcher.set(false);
