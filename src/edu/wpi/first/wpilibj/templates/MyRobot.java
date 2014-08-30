@@ -70,7 +70,13 @@ public class MyRobot extends IterativeRobot {
     
         if ( js.getRawButton(3) )
         {
-            
+            arm.set(true);
+            catcher.set(true);
+        }
+        else 
+        {
+            arm.set(false);
+            catcher.set(false);
         }
     }
     
