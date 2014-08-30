@@ -82,38 +82,65 @@ public class MyRobot extends IterativeRobot {
 
     
     public void autonomousPeriodic() 
-    {
-        System.out.println(leftEncoder.get()+" "+gyro.getAngle());
-        switch (state)
+    { 
+        if (state == 1)
         {
-            case 1:
-                setMotors(0.3,0.3);
-                if ( timer.get() > 0.5 )
-                {
-                    state++;
+            double current = leftEncoder.getDistance();
+        double target = 3000;
+        
+        double error = current-target;
+        System.out.println(error);
+        
+            if ( Math.abs(error) < 10 )
+            {
+                state++;
+                System.out.println("AT TARGET!");
+            }
+        
+            error *= -0.0003;
+            setMotors(error, error);
                 }
-                break;
-                
-            case 2:
-                setMotors(-0.3,0.3);
-                if ( timer.get() > 1.3 )
+                else if (state == 2)
                 {
-                    state++;
-                }
-                break;
-            case 3:
-                setMotors(0.3,0.3);
-                if ( timer.get() > 1.8 )
-                {
-                    state++;
-                }
-                break;
-            case 4:
-                setMotors(0,0);
-                break;
-              
-        }
+                    double current = gyro.getAngle();
+                    double target = 90;
+
+                    double error = current-target;
+                    System.out.println(error);
+        
+                        if ( Math.abs(error) < 10 )
+                        {
+                            state++;
+                            leftEncoder.reset();
+                            System.out.println("AT TARGET!");
+                        }
+
+                        error *= -0.01;
+                        setMotors(error, -error);
+                            }
+                            else if (state == 3)
+                            {
+                            double current = leftEncoder.getDistance();
+                            double target = 3000;
+
+                            double error = current-target;
+                            System.out.println(error);
+        
+                                if ( Math.abs(error) < 10 )
+                                {
+                                    System.out.println("AT TARGET!");
+                                    state++;
+                                }
+
+                                error *= -0.0003;
+                                setMotors(error, error);
+                                        }
+                                        else 
+                                        {
+                                            setMotors(0,0);
+                                        }
     }
+    
 
     
     public void teleopInit()
