@@ -86,10 +86,10 @@ public class MyRobot extends IterativeRobot {
         if (state == 1)
         {
             double current = leftEncoder.getDistance();
-        double target = 3000;
+            double target = 3000;
         
-        double error = current-target;
-        System.out.println(error);
+            double error = current-target;
+            System.out.println(error);
         
             if ( Math.abs(error) < 10 )
             {
@@ -99,46 +99,46 @@ public class MyRobot extends IterativeRobot {
         
             error *= -0.0003;
             setMotors(error, error);
-                }
-                else if (state == 2)
-                {
-                    double current = gyro.getAngle();
-                    double target = 90;
+        }
+        else if (state == 2)
+        {
+            double current = gyro.getAngle();
+            double target = 90;
 
-                    double error = current-target;
-                    System.out.println(error);
+            double error = current-target;
+            System.out.println(error);
         
-                        if ( Math.abs(error) < 10 )
-                        {
-                            state++;
-                            leftEncoder.reset();
-                            System.out.println("AT TARGET!");
-                        }
+            if ( Math.abs(error) < 10 )
+            {
+                state++;
+                leftEncoder.reset();
+                System.out.println("AT TARGET!");
+            }
 
-                        error *= -0.01;
-                        setMotors(error, -error);
-                            }
-                            else if (state == 3)
-                            {
-                            double current = leftEncoder.getDistance();
-                            double target = 3000;
+            error *= -0.01;
+            setMotors(error, -error);
+        }
+        else if (state == 3)
+        {
+            double current = leftEncoder.getDistance();
+            double target = 3000;
 
-                            double error = current-target;
-                            System.out.println(error);
-        
-                                if ( Math.abs(error) < 10 )
-                                {
-                                    System.out.println("AT TARGET!");
-                                    state++;
-                                }
+            double error = current-target;
+            System.out.println(error);
 
-                                error *= -0.0003;
-                                setMotors(error, error);
-                                        }
-                                        else 
-                                        {
-                                            setMotors(0,0);
-                                        }
+            if ( Math.abs(error) < 10 )
+            {
+                System.out.println("AT TARGET!");
+                state++;
+            }
+
+            error *= -0.0003;
+            setMotors(error, error);
+        }
+        else 
+        {
+            setMotors(0,0);
+        }
     }
     
 
