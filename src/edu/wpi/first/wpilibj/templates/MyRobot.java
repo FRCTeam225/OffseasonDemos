@@ -31,6 +31,7 @@ public class MyRobot extends IterativeRobot {
     DigitalInput ballSensor = new DigitalInput(7);
     Solenoid arm = new Solenoid(5);
     Solenoid catcher = new Solenoid(6);
+    boolean buttonPressed = false;
 
     /**
      * This function is run when the robot is first started up and should be
@@ -68,10 +69,26 @@ public class MyRobot extends IterativeRobot {
      */
     public void teleopPeriodic() {
     
-        if ( js.getRawButton(3) )
+        if ( js.getRawButton(3) && buttonPressed == true)
         {
-            
+            setCatch(true);
         }
+        else if( js.getRawButton(3) && buttonPressed == false)
+        {
+            setCatch(false);
+        }
+        
+        if(ballSensor.get())
+        {
+            setCatch(false);
+        }
+    }
+
+    public void setCatch(boolean isCaught)
+    {
+        buttonPressed = isCaught;
+        arm.set(isCaught);
+        catcher.set(isCaught);
     }
     
     /**
