@@ -87,11 +87,19 @@ public class MyRobot extends IterativeRobot {
     { 
         if (state == 1)
         {
-           
+           arm.set(true);
+           roller.set(1);
+           if (ballSensor.get())
+           {
+               state++;
+               roller.set(0);
+           }
             // pickup ball, wait til you see the ball
         }
         else if ( state == 2 )
         {
+           arm.set(false);
+           state++;
             // close intake
         }
         else if (state == 3 )
@@ -133,6 +141,12 @@ public class MyRobot extends IterativeRobot {
         }
         else if ( state == 5 )
         {
+            roller.set(-1);
+            if (ballSensor.get() == false)
+            {
+               roller.set(0);
+               state++;
+            }
             // spit ball
         }
         else 
