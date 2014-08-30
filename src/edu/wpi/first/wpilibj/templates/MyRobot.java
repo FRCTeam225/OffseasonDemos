@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.Timer;
 
@@ -45,7 +46,8 @@ public class MyRobot extends IterativeRobot {
     
     Timer timer = new Timer();
 
-    
+    Solenoid arm = new Solenoid(5);
+    Solenoid catcher = new Solenoid(6);
         
     int state = 0;
     
@@ -85,6 +87,7 @@ public class MyRobot extends IterativeRobot {
     { 
         if (state == 1)
         {
+           
             // pickup ball, wait til you see the ball
         }
         else if ( state == 2 )
