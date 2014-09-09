@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.Timer;
@@ -47,6 +48,7 @@ public class MyRobot extends IterativeRobot {
     Timer timer = new Timer();
 
     Solenoid arm = new Solenoid(5);
+    Relay arm2 = new Relay(2);
     Solenoid catcher = new Solenoid(6);
         
     int state = 0;
@@ -81,13 +83,14 @@ public class MyRobot extends IterativeRobot {
         timer.reset();
         timer.start();
     }
-
+    int stableLoops = 0;
     
     public void autonomousPeriodic() 
     { 
         if (state == 1)
         {
            arm.set(true);
+           arm2.set(Relay.Value.kForward);
            roller.set(1);
            if (ballSensor.get())
            {
@@ -100,6 +103,7 @@ public class MyRobot extends IterativeRobot {
         else if ( state == 2 )
         {
            arm.set(false);
+           arm2.set(Relay.Value.kOff);
            state++;
             // close intake
         }
@@ -114,6 +118,15 @@ public class MyRobot extends IterativeRobot {
         
             if ( Math.abs(error) < 10 )
             {
+                stableLoops++;
+            }
+            else
+            {
+                stableLoops = 0;
+            }
+            
+            if ( stableLoops > 20 )
+            {
                 state++;
                 leftEncoder.reset();
                 System.out.println("AT TARGET!");
@@ -126,7 +139,7 @@ public class MyRobot extends IterativeRobot {
         {
             // drive forward
             double current = leftEncoder.getDistance();
-            double target = 3000;
+            double target = -3000;
 
             double error = current-target;
             System.out.println(error);
