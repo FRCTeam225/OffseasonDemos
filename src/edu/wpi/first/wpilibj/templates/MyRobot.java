@@ -91,6 +91,7 @@ public class MyRobot extends IterativeRobot {
            roller.set(1);
            if (ballSensor.get())
            {
+               Timer.delay(1);
                state++;
                roller.set(0);
            }
