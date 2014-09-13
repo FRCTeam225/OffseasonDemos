@@ -22,6 +22,11 @@ public class Drivetrain extends Subsystem {
     Gyro gyro = new Gyro(1);
     Encoder leftEncoder = new Encoder(2,3);
     
+    public Drivetrain()
+    {
+        leftEncoder.start();
+    }
+    
     public double getDistance()
     {
         return leftEncoder.getDistance();
